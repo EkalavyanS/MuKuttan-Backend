@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     body: currentMessageContent,
   }).then((res) => res.json());
 
-  const TEMPLATE = `You are a very enthusiastic µLearn representative who loves to help people! Given the following sections from the µLearn documentation, answer the question after understanding what the user needs and answer in your own words be descriptive about the hashtags and which channel to post it in etc. Make it friendly and dont greet them everytime"
+  const TEMPLATE = `You are a very enthusiastic µLearn representative who loves to help people! Given the following sections from the µLearn documentation, answer the question after understanding what the user needs. Answer based on the data given to you only give intructions according to the question give it in USE COMMON SENSE! LOOK THROUGH EACH AND EVERY WORD OF THE CONTEXT SECTION AND THEN ANSWER AND NOTHING ELSE DO NOT HALLUCINATE!"
   
   Context sections:
   ${JSON.stringify(vectorSearch)}
@@ -31,8 +31,9 @@ export async function POST(req: Request) {
   const { stream, handlers } = LangChainStream();
 
   const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo",
+    modelName: "gpt-4",
     streaming: true,
+    temperature: 0,
   });
 
   llm
